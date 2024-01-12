@@ -31,12 +31,14 @@ def filter_datum(fields: List[str], redaction: str,
 
 def get_logger() -> logging.Logger:
     """implementing a get logger function"""
-    logger = logging.Logger("user_data")
+    logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
-    strhand = logging.StreamHandler()
-    fields = [x for x in PII_FIELDS]
-    strhand.setFormatter(RedactingFormatter(fields))
-    logger.addHandler(strhand)
+    logger.propagate = False
+
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(RedactingFormatter(list(PII_FIELDS)))
+    logger.addHandler(stream_handler)
+
     return logger
 
 
