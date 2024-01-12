@@ -5,7 +5,7 @@ from typing import List
 import re
 import logging
 
-#PII fields
+# PII fields
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
 
