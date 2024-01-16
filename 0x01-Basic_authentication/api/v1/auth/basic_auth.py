@@ -28,7 +28,8 @@ class BasicAuth(Auth):
             return None
 
         try:
-            decoded = base64.b64decode(base64_authorization_header)
-            return decoded.decode('utf-8')
-        except(Exception):
+            encoder = base64_authorization_header.encode('utf-8')
+            decoder = base64.b64decode(encoder)
+            return decoder.decode('utf-8')
+        except Exception:
             return None
