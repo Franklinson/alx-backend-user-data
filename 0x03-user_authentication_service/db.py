@@ -3,6 +3,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from user import User
 from sqlalchemy.orm.session import Session
 
 from user import Base, User
