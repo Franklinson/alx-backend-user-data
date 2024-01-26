@@ -38,9 +38,9 @@ def login() -> str:
     details = AUTH.valid_login(email, pswd)
     if not details:
         abort(401)
-    s_id = AUTH.create_session(email)
+    session_id = AUTH.create_session(email)
     msg = make_response(jsonify({"email": email, "message": "logged in"}))
-    msg.set_cookie("session_id", s_id)
+    msg.set_cookie("session_id", session_id)
     return msg
 
 
@@ -48,8 +48,8 @@ def login() -> str:
 def logout() -> str:
     """log out method """
     session_id = request.cookies.get('session_id')
-    usr = AUTH.get_user_from_session_id(session_id)
-    if not usr:
+    user = AUTH.get_user_from_session_id(session_id)
+    if not user:
         abort(403)
     AUTH.destroy_session(user.id)
     return redirect('/')
