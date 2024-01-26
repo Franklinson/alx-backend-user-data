@@ -58,14 +58,26 @@ def logout():
     abort(403)
 
 
-@app.route('/profile', methods=['GET'], strict_slashes=False)
-def profile() -> str:
-    """ profile for user """
-    session_id = request.cookies.get('session_id')
-    user = AUTH.get_user_from_session_id(session_id)
-    if user:
-        return jsonify({"email": user.email}), 200
-    else:
+@app.route('/profile', strict_slashes=False)
+def profile():
+    """ User profile """
+    sess_id = request.cookies.get('session_id', None)
+    if sess_id is None:
+        abort(403)
+    usr = AUTH.get_user_from_session_id(sess_id)
+    if usr is not None:
+        return jsonify({"email": usr.email})
+    abort(403)
+
+
+@app.route('/reset_password', methods=['POST'], strict_slashes=False)
+def get_reset_password_token():
+    """Reset user password"""
+    try:
+        email = request.form.get('email', None)
+        token = AUTH.get_reset_password_token(email)
+        return jsonify({"email": email, "reset_token": token})
+    except ValueError:
         abort(403)
 
 
